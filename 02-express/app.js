@@ -1,21 +1,27 @@
+const path = require('path');
 // const http = require('http');
 const express = require('express');
-
+const bodyParser = require('body-parser');
 const app = express();
+
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use((req, res, next) => {
 //   console.log('In the middleware');
 //   next();   // Allows the request to continue to the next middleware in line
 // });
 
-app.use('/add-product', (req, res, _) => {
-  console.log('In another middleware');
-  res.send('<h1>Hello from Express</h1>')
-})
+app.use('/admin',adminRoutes);
 
-app.use('/', (req, res, _) => {
-  console.log('In another middleware');
-  res.send('<h1>Hello from Express</h1>')
+app.use(shopRoutes);
+
+app.use((req, res, _) => {
+  // res.status(404).send('<h1>Page not found</h1>');
+  res.status(404).sendFile(path.join(__dirname,'views','404.html'));
 })
 
 app.listen(3000);
