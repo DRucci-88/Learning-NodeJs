@@ -3,6 +3,7 @@ const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
+
     res.render('shop/product-list', {
       prods: products,
       pageTitle: 'All Products',
@@ -26,6 +27,7 @@ exports.getProduct = (req, res, next) => {
 // https://picsum.photos/200/200
 exports.getIndex = (req, res, next) => {
   Product.fetchAll(products => {
+    console.log(products);
     res.render('shop/index', {
       prods: products,
       pageTitle: 'Shop',
